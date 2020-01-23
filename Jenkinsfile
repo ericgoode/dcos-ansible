@@ -73,6 +73,10 @@ pipeline {
                     cp group_vars/all/dcos.yaml.example group_vars/all/dcos.yaml
                     sed -i -e "s/spot_price_max_calc:.*/spot_price_max_calc: \${LINUX_DOUBLE_SPOT_PRICE}/" molecule/ec2/create.yml
 
+                    echo '###### group_vars/all/dcos.yaml #####'
+                    cat group_vars/all/dcos.yaml
+                    echo '#####################################'
+
                     molecule test --scenario-name ec2_centos7
                   '''
                 }
@@ -124,6 +128,11 @@ pipeline {
                     sed -i -e "s/spot_price_max_calc:.*/spot_price_max_calc: \${LINUX_DOUBLE_SPOT_PRICE}/" molecule/ec2/create.yml
                     sed -i 's/download_checksum: .*/download_checksum: sha256:522e461ed1a0779d2b54c91a3904218c79c612da45f3fe8d1623f1925ff9e3da/' group_vars/all/dcos.yaml
                     egrep -r 'downloads.dcos.io/dcos' -l --include='*.yml' --include='*.yaml' . | xargs -I {} sed -i -e 's/enterprise_dcos: .*/enterprise_dcos: true/' -e 's%downloads.dcos.io/dcos%downloads.mesosphere.com/dcos-enterprise%g' -e 's/dcos_generate_config.sh/dcos_generate_config.ee.sh/g' {}
+                    sed -i \"s/download_win: .*/download_win: https:\\/\\/downloads.mesosphere.com\\/dcos-enterprise\\/testing\\/master\\/windows\\/dcos_generate_config_win.ee.sh/\" group_vars/all/dcos.yaml
+
+                    echo '###### group_vars/all/dcos.yaml #####'
+                    cat group_vars/all/dcos.yaml
+                    echo '#####################################'
 
                     molecule test --scenario-name ec2_centos7
                   '''
@@ -222,6 +231,11 @@ pipeline {
                     sed -i -e "s/spot_price_max_calc:.*/spot_price_max_calc: \${RHEL_TRIPLE_LINUX_SPOT_PRICE}/" molecule/ec2/create.yml
                     sed -i 's/download_checksum: .*/download_checksum: sha256:522e461ed1a0779d2b54c91a3904218c79c612da45f3fe8d1623f1925ff9e3da/' group_vars/all/dcos.yaml
                     egrep -r 'downloads.dcos.io/dcos' -l --include='*.yml' --include='*.yaml' . | xargs -I {} sed -i -e 's/enterprise_dcos: .*/enterprise_dcos: true/' -e 's%downloads.dcos.io/dcos%downloads.mesosphere.com/dcos-enterprise%g' -e 's/dcos_generate_config.sh/dcos_generate_config.ee.sh/g' {}
+                    sed -i \"s/download_win: .*/download_win: https:\\/\\/downloads.mesosphere.com\\/dcos-enterprise\\/testing\\/master\\/windows\\/dcos_generate_config_win.ee.sh/\" group_vars/all/dcos.yaml
+
+                    echo '###### group_vars/all/dcos.yaml #####'
+                    cat group_vars/all/dcos.yaml
+                    echo '#####################################'
 
                     molecule test --scenario-name ec2_rhel7
                   '''
